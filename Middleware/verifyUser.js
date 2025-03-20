@@ -1,7 +1,4 @@
 const prisma = require("../DB/db.config");
-const { OAuth2Client } = require("google-auth-library");
-
-const client = new OAuth2Client();
 
 const verifyUser = async (req, res, next) => {
   try {

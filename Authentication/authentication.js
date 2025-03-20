@@ -137,13 +137,24 @@ exports.me = async (req, res) => {
   const access_token = req.cookies.access_token;
 
   if (!access_token) {
-    return res.status(401).json({ error: "Unauthorized" });
+    return res.json({ error: "Unauthorized" });
+    // return res.status(401).json({ error: "Unauthorized" });
   }
 
   try {
     const decoded = jwt.verify(access_token, JWT_SECRET_KEY);
     res.status(200).json(decoded);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(401).json({ error: error.message });
+  }
+};
+exports.logout = async (req, res) => {
+  try {
+    return res
+      .status(200)
+      .clearCookie("access_token")
+      .json({ message: "Logged out successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
   }
 };

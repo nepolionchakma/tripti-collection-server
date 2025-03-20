@@ -13,6 +13,7 @@ routes.use(cookieParser());
 routes.get("/login/google", authentication.googleLogin);
 routes.get("/login/google/callback", authentication.googleCallback);
 routes.get("/auth/me", authentication.me);
+routes.get("/auth/logout", authentication.logout);
 
 routes.use("/products", productRoutes);
 
