@@ -57,11 +57,12 @@ exports.googleCallback = async (req, res) => {
     };
 
     if (!user) {
-      const maxUserIDResult = await prisma.users.aggregate({
-        _max: {
-          id: true,
-        },
-      });
+      // const maxUserIDResult = await prisma.users.aggregate({
+      //   _max: {
+      //     id: true,
+      //   },
+      // });
+
       const baseUserName = profile.data.name.split(" ").join("").toLowerCase();
 
       let userName = baseUserName;
@@ -76,16 +77,16 @@ exports.googleCallback = async (req, res) => {
       }
 
       const currentTime = new Date();
-
-      const maxID = maxUserIDResult._max.id + 1;
+      const profile_type = ["user"];
+      // const maxID = maxUserIDResult._max.id + 1;
       const dataUser = {
-        id: maxID,
         user_name: userName,
         first_name: profile.data.given_name,
         last_name: profile.data.family_name,
         email: profile.data.email,
         picture: profile.data.picture,
-        create_at: currentTime,
+        profile_type,
+        created_at: currentTime,
       };
 
       user = await prisma.users.create({

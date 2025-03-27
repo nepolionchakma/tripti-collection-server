@@ -1,25 +1,32 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  schemas  = ["public"]
 }
 
 model test {
   id          Int     @id
   name        String?
   description String?
+
+  @@schema("public")
 }
 
 model users {
-  id           Int       @id
-  user_name    String?   @db.VarChar(50)
-  first_name   String?   @db.VarChar(50)
-  last_name    String?   @db.VarChar(50)
-  email        String?   @db.VarChar(100)
+  id           Int       @id @default(autoincrement())
+  user_name    String    @db.VarChar(50)
+  first_name   String    @db.VarChar(50)
+  last_name    String    @db.VarChar(50)
+  email        String    @unique @db.VarChar(100)
   picture      String?
-  access_token String?
-  create_at    DateTime? @default(now()) @db.Timestamp(6)
+  profile_type Json?
+  access_token String
+  created_at   DateTime? @default(now()) @db.Timestamp(6)
+
+  @@schema("public")
 }
