@@ -8,7 +8,7 @@ const PORT = process.env.PORT;
 const server = http.createServer(app);
 
 const options = {
-  origin: ["*", "http://localhost:5173"],
+  origin: JSON.parse(process.env.ALLOWED_ORIGINS),
   methods: "GET,POST,PUT,DELETE",
   credentials: true,
 };
