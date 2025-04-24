@@ -31,13 +31,13 @@ exports.googleCallback = async (req, res) => {
       },
       { headers: { "Content-Type": "application/json" } }
     );
-
+    console.log("Google Token Response:", data);
     const { access_token } = data;
     const profile = await axios.get(
       "https://www.googleapis.com/oauth2/v2/userinfo",
       { headers: { Authorization: `Bearer ${access_token}` } }
     );
-
+    console.log("Google Profile Response:", profile.data);
     const userEmail = profile.data.email;
     // Check if user exists, else create
     let user = await prisma.users.findFirst({
@@ -99,6 +99,7 @@ exports.googleCallback = async (req, res) => {
         .status(200)
         .cookie("access_token", authToken(user), {
           httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
           secure: false,
         })
         .redirect(`${returnUrl}`);
