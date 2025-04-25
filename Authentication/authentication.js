@@ -9,7 +9,15 @@ const GOOGLE_REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI;
 const REDIRECT_APP_URL = process.env.REDIRECT_APP_URL;
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 const EXPIRED = process.env.EXPIRED;
-
+console.log(
+  GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET,
+  GOOGLE_REDIRECT_URI,
+  REDIRECT_APP_URL,
+  JWT_SECRET_KEY,
+  EXPIRED,
+  "GOOGLE_CLIENT_ID,GOOGLE_CLIENT_SECRET,GOOGLE_REDIRECT_URI,REDIRECT_APP_URL,JWT_SECRET_KEY,EXPIRED"
+);
 exports.googleLogin = (req, res) => {
   const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${GOOGLE_REDIRECT_URI}&response_type=code&scope=email%20profile`;
   res.redirect(googleAuthUrl);
@@ -19,6 +27,7 @@ exports.googleLogin = (req, res) => {
 exports.googleCallback = async (req, res) => {
   const code = req.query.code;
   const returnUrl = req.cookies.returnUrl || REDIRECT_APP_URL;
+  console.log(code, returnUrl, "code & returnUrl");
   try {
     const { data } = await axios.post(
       "https://oauth2.googleapis.com/token",
@@ -45,7 +54,7 @@ exports.googleCallback = async (req, res) => {
         email: userEmail,
       },
     });
-
+    console.log(user, "user");
     const authToken = (user) => {
       return jwt.sign(
         {
