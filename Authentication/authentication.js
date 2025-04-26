@@ -130,7 +130,9 @@ exports.googleCallback = async (req, res) => {
         .status(200)
         .cookie("access_token", authToken(response), {
           httpOnly: true,
-          secure: false,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "None",
+          // secure: false,
         })
         .redirect(`${returnUrl}`);
     }
