@@ -6,9 +6,9 @@ const app = express();
 
 const PORT = process.env.PORT;
 const server = http.createServer(app);
-
+const allowedOrigins = JSON.parse(process.env.ALLOWED_ORIGINS);
 const options = {
-  origin: JSON.parse(process.env.ALLOWED_ORIGINS),
+  origin: allowedOrigins,
   methods: "GET,POST,PUT,DELETE",
   credentials: true,
 };
