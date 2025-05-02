@@ -6,7 +6,7 @@ const verifyUser = async (req, res, next) => {
       req?.cookies?.access_token ||
       req?.body?.access_token ||
       req.header("Authorization")?.replace("Bearer ", "");
-    // console.log(access_token, "access token");
+    // console.log(access_token, "access token 0002");
     const ticket = await client.getTokenInfo(access_token);
     if (ticket.email) {
       const user = await prisma.users.findFirst({

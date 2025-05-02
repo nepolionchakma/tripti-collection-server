@@ -9,15 +9,7 @@ const GOOGLE_REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI;
 const REDIRECT_APP_URL = process.env.REDIRECT_APP_URL;
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 const EXPIRED = process.env.EXPIRED;
-console.log(
-  GOOGLE_CLIENT_ID,
-  GOOGLE_CLIENT_SECRET,
-  GOOGLE_REDIRECT_URI,
-  REDIRECT_APP_URL,
-  JWT_SECRET_KEY,
-  EXPIRED,
-  "GOOGLE_CLIENT_ID,GOOGLE_CLIENT_SECRET,GOOGLE_REDIRECT_URI,REDIRECT_APP_URL,JWT_SECRET_KEY,EXPIRED"
-);
+
 exports.googleLogin = (req, res) => {
   const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${GOOGLE_REDIRECT_URI}&response_type=code&scope=email%20profile`;
   res.redirect(googleAuthUrl);
@@ -40,7 +32,7 @@ exports.googleCallback = async (req, res) => {
       },
       { headers: { "Content-Type": "application/json" } }
     );
-    console.log("Google Token Response:", data);
+    // console.log("Google Token Response:", data);
     const { access_token } = data;
     const profile = await axios.get(
       "https://www.googleapis.com/oauth2/v2/userinfo",
@@ -129,11 +121,11 @@ exports.googleCallback = async (req, res) => {
 
       return res
         .status(200)
-        .cookie("access_token", authToken(response), {
+        .cookie("access_token", authToken(user), {
           httpOnly: true,
-          // secure: process.env.NODE_ENV === "production",
-          // sameSite: "None",
-          secure: true,
+          secure: process.env.NODE_SECURE === "production", // Only set 'secure' in production
+          sameSite: process.env.NODE_SECURE === "production" ? "None" : "Lax", // Use "None" for cross-domain requests
+          //maxAge: 60 * 60 * 1000, // 1 hour cookie expiration, adjust as needed
         })
         .redirect(`${returnUrl}`);
     }
@@ -149,7 +141,7 @@ exports.googleCallback = async (req, res) => {
 };
 exports.me = async (req, res) => {
   const access_token = req.cookies.access_token;
-
+  console.log(access_token, "access token 000");
   if (!access_token) {
     return res.status(401).json({ error: "Unauthorized" });
   }
