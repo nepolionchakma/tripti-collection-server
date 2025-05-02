@@ -108,8 +108,9 @@ exports.googleCallback = async (req, res) => {
         .status(200)
         .cookie("access_token", authToken(user), {
           httpOnly: true,
-          secure: process.env.NODE_ENV === "production",
-          secure: false,
+          secure: process.env.NODE_SECURE === "production", // Only set 'secure' in production
+          sameSite: process.env.NODE_SECURE === "production" ? "None" : "Lax", // Use "None" for cross-domain requests
+          //maxAge: 60 * 60 * 1000, // 1 hour cookie expiration, adjust as needed
         })
         .redirect(`${returnUrl}`);
     } else {
