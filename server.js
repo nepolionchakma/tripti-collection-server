@@ -9,7 +9,7 @@ const server = http.createServer(app);
 const allowedOrigins = JSON.parse(process.env.ALLOWED_ORIGINS);
 const options = {
   origin: allowedOrigins,
-  methods: "GET,POST,PUT,DELETE",
+  // methods: "GET,POST,PUT,DELETE",
   credentials: true,
 };
 
