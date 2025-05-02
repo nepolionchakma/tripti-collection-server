@@ -141,7 +141,7 @@ exports.googleCallback = async (req, res) => {
     if (!res.headersSent) {
       res
         .status(500)
-        .json({ error: "Field to create user via Google account." })
+        .json({ error: "Failed to create user via Google account." })
         .redirect(`${REDIRECT_APP_URL}/login`);
     }
   }
@@ -150,8 +150,7 @@ exports.me = async (req, res) => {
   const access_token = req.cookies.access_token;
 
   if (!access_token) {
-    return res.json({ error: "Unauthorized" });
-    // return res.status(401).json({ error: "Unauthorized" });
+    return res.status(401).json({ error: "Unauthorized" });
   }
 
   try {
