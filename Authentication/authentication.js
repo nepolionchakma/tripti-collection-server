@@ -19,7 +19,7 @@ exports.googleLogin = (req, res) => {
 exports.googleCallback = async (req, res) => {
   const code = req.query.code;
   const returnUrl = req.cookies.returnUrl || REDIRECT_APP_URL;
-  console.log(code, returnUrl, "code & returnUrl");
+  // console.log(code, returnUrl, "code & returnUrl");
   try {
     const { data } = await axios.post(
       "https://oauth2.googleapis.com/token",
@@ -38,7 +38,7 @@ exports.googleCallback = async (req, res) => {
       "https://www.googleapis.com/oauth2/v2/userinfo",
       { headers: { Authorization: `Bearer ${access_token}` } }
     );
-    console.log("Google Profile Response:", profile.data);
+    // console.log("Google Profile Response:", profile.data);
     const userEmail = profile.data.email;
     // Check if user exists, else create
     let user = await prisma.users.findFirst({
@@ -46,7 +46,7 @@ exports.googleCallback = async (req, res) => {
         email: userEmail,
       },
     });
-    console.log(user, "user");
+
     const authToken = (user) => {
       return jwt.sign(
         {
@@ -106,22 +106,19 @@ exports.googleCallback = async (req, res) => {
         })
         .redirect(`${returnUrl}`);
     } else {
-      const exitingUser = await prisma.users.findFirst({
-        where: { email: userEmail },
-      });
-      delete exitingUser.access_token;
+      delete user.access_token;
       const response = await prisma.users.update({
         where: {
-          id: exitingUser.id,
+          id: user.id,
         },
         data: {
-          access_token: authToken(exitingUser),
+          access_token: authToken(user),
         },
       });
 
       return res
         .status(200)
-        .cookie("access_token", authToken(user), {
+        .cookie("access_token", authToken(response), {
           httpOnly: true,
           secure: process.env.NODE_SECURE === "production", // Only set 'secure' in production
           sameSite: process.env.NODE_SECURE === "production" ? "None" : "Lax", // Use "None" for cross-domain requests
@@ -148,6 +145,7 @@ exports.me = async (req, res) => {
 
   try {
     const decoded = jwt.verify(access_token, JWT_SECRET_KEY);
+    console.log(decoded, "decoded");
     res.status(200).json(decoded);
   } catch (error) {
     res.status(401).json({ error: error.message });
@@ -155,11 +153,15 @@ exports.me = async (req, res) => {
 };
 exports.logout = async (req, res) => {
   try {
-    return res
-      .status(200)
-      .clearCookie("access_token")
-      .json({ message: "Logged out successfully" });
+    res.clearCookie("access_token", {
+      httpOnly: true,
+      secure: process.env.NODE_SECURE === "production", // Only set 'secure' in production
+      sameSite: process.env.NODE_SECURE === "production" ? "None" : "Lax",
+    });
+
+    return res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    console.error("Logout error:", error);
+    return res.status(500).json({ error: "Logout failed" });
   }
 };
