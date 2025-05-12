@@ -138,14 +138,14 @@ exports.googleCallback = async (req, res) => {
 };
 exports.me = async (req, res) => {
   const access_token = req.cookies.access_token;
-  console.log(access_token, "access token 000");
+  // console.log(access_token, "access token 000");
   if (!access_token) {
     return res.status(401).json({ error: "Unauthorized" });
   }
 
   try {
     const decoded = jwt.verify(access_token, JWT_SECRET_KEY);
-    console.log(decoded, "decoded");
+
     res.status(200).json(decoded);
   } catch (error) {
     res.status(401).json({ error: error.message });
