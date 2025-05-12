@@ -30,3 +30,25 @@ model users {
 
   @@schema("public")
 }
+
+model products {
+  id             Int      @id @default(autoincrement())
+  title          String   @db.VarChar(255)
+  category       String?  @db.VarChar(255)
+  original_price Int?
+  new_price      Int?
+  size           Json?
+  colors         Json?
+  material       Json?
+  is_available   Boolean? @default(true)
+  edition        Json?
+  offer          String?
+  features       Json?
+  img            String?
+  images         Json?
+  quantity       Int?     @default(1)
+  description    String?
+  visibility     Boolean? @default(true)
+
+  @@schema("public")
+}

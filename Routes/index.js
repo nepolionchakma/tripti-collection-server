@@ -6,7 +6,7 @@ const verifyUser = require("../Middleware/verifyUser");
 const routes = Router();
 
 // routes
-const productRoutes = require("./productRoutes");
+const productRoutes = require("./productsRoutes");
 
 routes.use(cookieParser());
 // routes.use(verifyUser);
