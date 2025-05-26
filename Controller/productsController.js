@@ -77,12 +77,10 @@ exports.getProductsByPage = async (req, res) => {
 exports.createProduct = async (req, res) => {
   // title, category, original_price, new_price, size, colors, material, is_available, edition, offer, features, img, images, quantity, description, visibility,timestamp
   const data = req.body;
-  console.log(data, "data");
   try {
     const result = await prisma.products.create({
       data: data,
     });
-    console.log(result, "result");
     return res.status(200).json({ message: "Product created successfully" });
   } catch (error) {
     return res.status(500).json({ error: error.message });
