@@ -49,6 +49,7 @@ model products {
   quantity       Int?     @default(1)
   description    String?
   visibility     Boolean? @default(true)
+  timestamp      String?  @db.VarChar(100)
 
   @@schema("public")
 }
