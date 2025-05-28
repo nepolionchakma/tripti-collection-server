@@ -16,5 +16,6 @@ routes.get("/auth/me", authentication.me);
 routes.get("/auth/logout", authentication.logout);
 
 routes.use("/products", productRoutes);
+routes.use("/", (req, res) => res.send("Hello World! Server is running."));
 
 module.exports = routes;
