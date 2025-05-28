@@ -11,6 +11,15 @@ async function main() {
   // ... you will write your Prisma Client queries here
 }
 
+prisma
+  .$connect()
+  .then(() => {
+    console.log("Connected to the database");
+  })
+  .catch((err) => {
+    console.error("Failed to connect to the database", err);
+  });
+
 main()
   .then(async () => {
     await prisma.$disconnect();
