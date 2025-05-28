@@ -1,6 +1,7 @@
 const prisma = require("../DB/db.config");
 // get products
 exports.getProducts = async (req, res) => {
+  console.log("Hello Products");
   try {
     const result = await prisma.products.findMany({
       orderBy: {
