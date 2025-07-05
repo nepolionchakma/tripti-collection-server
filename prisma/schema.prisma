@@ -32,24 +32,28 @@ model users {
 }
 
 model products {
-  id             Int      @id @default(autoincrement())
-  title          String   @db.VarChar(255)
-  category       String?  @db.VarChar(255)
-  original_price Int?
-  new_price      Int?
-  size           Json?
-  colors         Json?
-  material       Json?
-  is_available   Boolean? @default(true)
-  edition        Json?
-  offer          String?
-  features       Json?
-  img            String?
-  images         Json?
-  quantity       Int?     @default(1)
-  description    String?
-  visibility     Boolean? @default(true)
-  timestamp      String?  @db.VarChar(100)
+  product_id           Int       @id @default(autoincrement())
+  title                String    @db.VarChar(255)
+  categories           Json?
+  collection           Json?
+  prices               Json?
+  sizes                Json?
+  colors               Json?
+  material             Json?
+  edition              Json?
+  offer                Json?
+  features             Json?
+  img                  String?
+  images               Json?
+  stock_quantity       Int?
+  rating               Json?
+  description          String?
+  tags                 Json?
+  visibility           Boolean?  @default(true)
+  is_available_product Boolean?  @default(true)
+  is_featured_product  Boolean?
+  created_at           DateTime? @default(now()) @db.Timestamp(6)
+  updated_at           DateTime? @default(now()) @db.Timestamp(6)
 
   @@schema("public")
 }

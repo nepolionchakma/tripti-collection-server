@@ -5,7 +5,7 @@ exports.getProducts = async (req, res) => {
   try {
     const result = await prisma.products.findMany({
       orderBy: {
-        id: "desc",
+        product_id: "desc",
       },
     });
     return res.status(200).json(result);
@@ -28,7 +28,7 @@ exports.productsLazyloading = async (req, res) => {
       skip: skip,
       take: pageLimit,
       orderBy: {
-        id: "desc",
+        product_id: "desc",
       },
     });
 
@@ -46,11 +46,11 @@ exports.productsLazyloading = async (req, res) => {
 
 // get unique
 exports.getUniqueProduct = async (req, res) => {
-  const id = Number(req.params.id);
+  const product_id = Number(req.params.id);
   try {
     const result = await prisma.products.findFirst({
       where: {
-        id,
+        product_id,
       },
     });
     return res.status(200).json(result);
@@ -66,7 +66,7 @@ exports.getProductsByPage = async (req, res) => {
       skip: page * 10,
       take: limit,
       orderBy: {
-        id: "desc",
+        product_id: "desc",
       },
     });
     return res.status(200).json(result);
@@ -76,10 +76,11 @@ exports.getProductsByPage = async (req, res) => {
 };
 // create
 exports.createProduct = async (req, res) => {
-  // title, category, original_price, new_price, size, colors, material, is_available, edition, offer, features, img, images, quantity, description, visibility,timestamp
+  // product_id, title, categories, collection,  prices, sizes, colors,  material, edition,  offer,  features, img,  images, stock_quantity, rating,  description, tags, visibility, is_available_product, is_featured_product,  created_at, updated_at,
   const data = req.body;
+  console.log(data, "data");
   try {
-    await prisma.products.create({
+    const ss = await prisma.products.create({
       data,
     });
     return res.status(200).json({ message: "Product created successfully" });
@@ -89,13 +90,13 @@ exports.createProduct = async (req, res) => {
 };
 // update
 exports.updateProduct = async (req, res) => {
-  // title, category, original_price, new_price, size, colors, material, is_available, edition, offer, features, img, images, quantity, description, visibility,timestamp
-  const id = Number(req.params.id);
+  // product_id, title, categories, collection,  prices, sizes, colors,  material, edition,  offer,  features, img,  images, stock_quantity, rating,  description, tags, visibility, is_available_product, is_featured_product,  created_at, updated_at,
+  const product_id = Number(req.params.id);
   const data = req.body;
   try {
     const result = await prisma.products.update({
       where: {
-        id,
+        product_id,
       },
       data,
     });
@@ -107,11 +108,11 @@ exports.updateProduct = async (req, res) => {
 };
 // delete
 exports.deleteProduct = async (req, res) => {
-  const id = Number(req.params.id);
+  const product_id = Number(req.params.id);
   try {
     const result = await prisma.products.delete({
       where: {
-        id,
+        product_id,
       },
     });
     console.log(result, "result");
