@@ -13,6 +13,7 @@ exports.getProducts = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+
 exports.productsLazyloading = async (req, res) => {
   const { page, limit } = req.params;
   const pageNumber = parseInt(page, 10);
@@ -117,6 +118,414 @@ exports.deleteProduct = async (req, res) => {
     });
     console.log(result, "result");
     return res.status(200).json({ message: "Product deleted successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+// --------------------------------------------//
+// categories
+exports.getCategories = async (req, res) => {
+  try {
+    const result = await prisma.categories.findMany();
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+exports.createCategory = async (req, res) => {
+  const data = req.body;
+  try {
+    await prisma.categories.create({
+      data,
+    });
+    return res.status(201).json({ message: "Category created successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+exports.updateCategory = async (req, res) => {
+  const category_id = Number(req.params.category_id);
+  const data = req.body;
+  try {
+    const result = await prisma.categories.update({
+      where: {
+        category_id,
+      },
+      data,
+    });
+    console.log(result, "result");
+    return res.status(200).json({ message: "Category updated successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+exports.deleteCategory = async (req, res) => {
+  const category_id = Number(req.params.category_id);
+  try {
+    const result = await prisma.categories.delete({
+      where: {
+        category_id,
+      },
+    });
+    console.log(result, "result");
+    return res.status(200).json({ message: "Category deleted successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+// sizes
+exports.getSizes = async (req, res) => {
+  try {
+    const result = await prisma.sizes.findMany();
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+exports.createSize = async (req, res) => {
+  const data = req.body;
+  try {
+    await prisma.sizes.create({
+      data,
+    });
+    return res.status(201).json({ message: "Size created successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+exports.updateSize = async (req, res) => {
+  const size_id = Number(req.params.size_id);
+  const data = req.body;
+  try {
+    const result = await prisma.sizes.update({
+      where: {
+        size_id,
+      },
+      data,
+    });
+    console.log(result, "result");
+    return res.status(200).json({ message: "Size updated successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+exports.deleteSize = async (req, res) => {
+  const size_id = Number(req.params.size_id);
+  try {
+    const result = await prisma.sizes.delete({
+      where: {
+        size_id,
+      },
+    });
+    console.log(result, "result");
+    return res.status(200).json({ message: "Size deleted successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+// colors
+exports.getColors = async (req, res) => {
+  try {
+    const result = await prisma.colors.findMany();
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+exports.createColor = async (req, res) => {
+  const data = req.body;
+  try {
+    await prisma.colors.create({
+      data,
+    });
+    return res.status(201).json({ message: "Color created successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+exports.updateColor = async (req, res) => {
+  const color_id = Number(req.params.color_id);
+  const data = req.body;
+  try {
+    const result = await prisma.colors.update({
+      where: {
+        color_id,
+      },
+      data,
+    });
+    console.log(result, "result");
+    return res.status(200).json({ message: "Color updated successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+exports.deleteColor = async (req, res) => {
+  const color_id = Number(req.params.color_id);
+  try {
+    const result = await prisma.colors.delete({
+      where: {
+        color_id,
+      },
+    });
+    console.log(result, "result");
+    return res.status(200).json({ message: "Color deleted successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+// materials
+exports.getMaterials = async (req, res) => {
+  try {
+    const result = await prisma.materials.findMany();
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+exports.createMaterial = async (req, res) => {
+  const data = req.body;
+  try {
+    await prisma.materials.create({
+      data,
+    });
+    return res.status(201).json({ message: "Material created successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+exports.updateMaterial = async (req, res) => {
+  const material_id = Number(req.params.material_id);
+  const data = req.body;
+  try {
+    const result = await prisma.materials.update({
+      where: {
+        material_id,
+      },
+      data,
+    });
+    console.log(result, "result");
+    return res.status(200).json({ message: "Material updated successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+exports.deleteMaterial = async (req, res) => {
+  const material_id = Number(req.params.material_id);
+  try {
+    const result = await prisma.materials.delete({
+      where: {
+        material_id,
+      },
+    });
+    console.log(result, "result");
+    return res.status(200).json({ message: "Material deleted successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+// edition
+exports.getEditions = async (req, res) => {
+  try {
+    const result = await prisma.editions.findMany();
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+exports.createEdition = async (req, res) => {
+  const data = req.body;
+  try {
+    await prisma.editions.create({
+      data,
+    });
+    return res.status(201).json({ message: "Edition created successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+exports.updateEdition = async (req, res) => {
+  const edition_id = Number(req.params.edition_id);
+  const data = req.body;
+  try {
+    const result = await prisma.editions.update({
+      where: {
+        edition_id,
+      },
+      data,
+    });
+    console.log(result, "result");
+    return res.status(200).json({ message: "Edition updated successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+exports.deleteEdition = async (req, res) => {
+  const edition_id = Number(req.params.edition_id);
+  try {
+    const result = await prisma.editions.delete({
+      where: {
+        edition_id,
+      },
+    });
+    console.log(result, "result");
+    return res.status(200).json({ message: "Edition deleted successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+// features
+exports.getFeatures = async (req, res) => {
+  try {
+    const result = await prisma.features.findMany();
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+exports.createFeature = async (req, res) => {
+  const data = req.body;
+  try {
+    await prisma.features.create({
+      data,
+    });
+    return res.status(201).json({ message: "Feature created successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+exports.updateFeature = async (req, res) => {
+  const feature_id = Number(req.params.feature_id);
+  const data = req.body;
+  try {
+    const result = await prisma.features.update({
+      where: {
+        feature_id,
+      },
+      data,
+    });
+    console.log(result, "result");
+    return res.status(200).json({ message: "Feature updated successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+exports.deleteFeature = async (req, res) => {
+  const feature_id = Number(req.params.feature_id);
+  try {
+    const result = await prisma.features.delete({
+      where: {
+        feature_id,
+      },
+    });
+    console.log(result, "result");
+    return res.status(200).json({ message: "Feature deleted successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+// collections
+exports.getCollections = async (req, res) => {
+  try {
+    const result = await prisma.collections.findMany();
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+exports.createCollection = async (req, res) => {
+  const data = req.body;
+  try {
+    await prisma.collections.create({
+      data,
+    });
+    return res.status(201).json({ message: "Collection created successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+exports.updateCollection = async (req, res) => {
+  const collection_id = Number(req.params.collection_id);
+  const data = req.body;
+  try {
+    const result = await prisma.collections.update({
+      where: {
+        collection_id,
+      },
+      data,
+    });
+    console.log(result, "result");
+    return res.status(200).json({ message: "Collection updated successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+exports.deleteCollection = async (req, res) => {
+  const collection_id = Number(req.params.collection_id);
+  try {
+    const result = await prisma.collections.delete({
+      where: {
+        collection_id,
+      },
+    });
+    console.log(result, "result");
+    return res.status(200).json({ message: "Collection deleted successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+// sections
+exports.getSections = async (req, res) => {
+  try {
+    const result = await prisma.sections.findMany();
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+exports.createSection = async (req, res) => {
+  const data = req.body;
+  try {
+    await prisma.sections.create({
+      data,
+    });
+    return res.status(201).json({ message: "Section created successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+exports.updateSection = async (req, res) => {
+  const section_id = Number(req.params.section_id);
+  const data = req.body;
+  try {
+    const result = await prisma.sections.update({
+      where: {
+        section_id,
+      },
+      data,
+    });
+    console.log(result, "result");
+    return res.status(200).json({ message: "Section updated successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+exports.deleteSection = async (req, res) => {
+  const section_id = Number(req.params.section_id);
+  try {
+    const result = await prisma.sections.delete({
+      where: {
+        section_id,
+      },
+    });
+    console.log(result, "result");
+    return res.status(200).json({ message: "Section deleted successfully" });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
