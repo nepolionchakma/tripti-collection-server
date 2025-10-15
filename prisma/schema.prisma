@@ -35,12 +35,12 @@ model products {
   product_id           Int       @id @default(autoincrement())
   title                String    @db.VarChar(255)
   categories           Json?
-  collection           Json?
+  collections          Json?
   prices               Json?
   sizes                Json?
   colors               Json?
-  material             Json?
-  edition              Json?
+  materials            Json?
+  editions             Json?
   offer                Json?
   features             Json?
   img                  String?
@@ -54,6 +54,63 @@ model products {
   is_featured_product  Boolean?
   created_at           DateTime? @default(now()) @db.Timestamp(6)
   updated_at           DateTime? @default(now()) @db.Timestamp(6)
+  sections             Json?
+
+  @@schema("public")
+}
+
+model categories {
+  category_id   Int     @id @default(autoincrement())
+  category_name String?
+
+  @@schema("public")
+}
+
+model collections {
+  collection_id   Int     @id @default(autoincrement())
+  collection_name String?
+
+  @@schema("public")
+}
+
+model colors {
+  color_id   Int     @id @default(autoincrement())
+  color_name String?
+
+  @@schema("public")
+}
+
+model editions {
+  edition_id   Int     @id @default(autoincrement())
+  edition_name String?
+
+  @@schema("public")
+}
+
+model features {
+  feature_id   Int     @id @default(autoincrement())
+  feature_name String?
+
+  @@schema("public")
+}
+
+model materials {
+  material_id   Int     @id @default(autoincrement())
+  material_name String?
+
+  @@schema("public")
+}
+
+model sections {
+  section_id   Int     @id @default(autoincrement())
+  section_name String?
+
+  @@schema("public")
+}
+
+model sizes {
+  size_id   Int     @id @default(autoincrement())
+  size_name String?
 
   @@schema("public")
 }
