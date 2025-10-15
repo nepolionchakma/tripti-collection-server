@@ -10,6 +10,15 @@ router.put("/update/:id", productsController.updateProduct);
 router.delete("/delete/:id", productsController.deleteProduct);
 
 router.get("/categories", productsController.getCategories);
+router.post("/categories/create", productsController.createCategory);
+router.put(
+  "/categories/update/:category_id",
+  productsController.updateCategory
+);
+router.delete(
+  "/categories/delete/:category_id",
+  productsController.deleteCategory
+);
 router.get("/sizes", productsController.getSizes);
 router.get("/colors", productsController.getColors);
 router.get("/materials", productsController.getMaterials);

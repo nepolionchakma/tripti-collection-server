@@ -127,6 +127,7 @@ exports.deleteProduct = async (req, res) => {
 exports.getCategories = async (req, res) => {
   try {
     const result = await prisma.categories.findMany();
+    console.log(result, "result");
     return res.status(200).json(result);
   } catch (error) {
     return res.status(500).json({ error: error.message });
