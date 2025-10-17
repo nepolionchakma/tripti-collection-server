@@ -10,13 +10,13 @@ const productRoutes = require("./productsRoutes");
 
 routes.use(cookieParser());
 // routes.use(verifyUser);
-routes.get("/login/google", authentication.googleLogin);
-routes.get("/login/google/callback", authentication.googleCallback);
-routes.get("/auth/me", authentication.me);
-routes.get("/auth/logout", authentication.logout);
+routes.get("/api/login/google", authentication.googleLogin);
+routes.get("/api/login/google/callback", authentication.googleCallback);
+routes.get("/api/auth/me", authentication.me);
+routes.get("/api/auth/logout", authentication.logout);
 
-routes.use("/products", productRoutes);
+routes.use("/api/products", productRoutes);
 
-routes.use("/", (req, res) => res.send("Hello World! Server is running."));
+routes.use("/api/", (req, res) => res.send("Hello World! Server is running."));
 
 module.exports = routes;
