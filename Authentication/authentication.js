@@ -129,10 +129,12 @@ exports.googleCallback = async (req, res) => {
   } catch (error) {
     console.error(error);
     if (!res.headersSent) {
-      res
+      if (REDIRECT_APP_URL) {
+        return res.redirect(`${REDIRECT_APP_URL}/login`);
+      }
+      return res
         .status(500)
-        .json({ error: "Failed to create user via Google account." })
-        .redirect(`${REDIRECT_APP_URL}/login`);
+        .json({ error: "Failed to create user via Google account." });
     }
   }
 };

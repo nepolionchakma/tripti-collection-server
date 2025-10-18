@@ -1,14 +1,11 @@
 const Router = require("express");
 const authentication = require("../Authentication/authentication");
-const cookieParser = require("cookie-parser");
 const verifyUser = require("../Middleware/verifyUser");
 
 const routes = Router();
 
 // routes
 const productRoutes = require("./productsRoutes");
-
-routes.use(cookieParser());
 // routes.use(verifyUser);
 routes.get("/api/login/google", authentication.googleLogin);
 routes.get("/api/login/google/callback", authentication.googleCallback);
