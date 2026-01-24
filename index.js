@@ -28,16 +28,10 @@ app.use(cors(options));
 app.use(require("./Routes/index"));
 // app.use("/", (req, res) => res.send("Hello World!"));
 
-// Serve built React app
-const __dirnamePath = path.resolve();
-app.use(express.static(path.join(__dirnamePath, "../react/dist")));
 
 // Health check for Render
 app.get("/healthz", (_, res) => res.status(200).send("ok"));
 
-app.get("*", (_, res) => {
-  res.sendFile(path.join(__dirnamePath, "../react/dist/index.html"));
-});
 
 server.listen(PORT, "0.0.0.0", () =>
   console.log(`Server is running on port ${PORT}.`)
