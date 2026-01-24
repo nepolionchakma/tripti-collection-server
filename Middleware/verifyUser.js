@@ -1,4 +1,5 @@
 const prisma = require("../DB/db.config");
+const jwt = require("jsonwebtoken");
 
 const verifyUser = async (req, res, next) => {
   try {
@@ -6,20 +7,24 @@ const verifyUser = async (req, res, next) => {
       req?.cookies?.access_token ||
       req?.body?.access_token ||
       req.header("Authorization")?.replace("Bearer ", "");
-    // console.log(access_token, "access token 0002");
-    const ticket = await client.getTokenInfo(access_token);
-    if (ticket.email) {
-      const user = await prisma.users.findFirst({
-        where: {
-          email: ticket.email,
-        },
-      });
-
-      const token = user.access_token === access_token;
-      if (token) {
-        next();
-      }
+    if (!access_token) {
+      return res.status(401).json({ error: "Unauthorized" });
     }
+
+    const decoded = jwt.verify(access_token, process.env.JWT_SECRET_KEY);
+
+    // optional: ensure the user still exists
+    const email = decoded?.user?.email;
+    if (!email) {
+      return res.status(401).json({ error: "Invalid token" });
+    }
+    const user = await prisma.users.findFirst({ where: { email } });
+    if (!user) {
+      return res.status(401).json({ error: "User not found" });
+    }
+
+    req.user = user;
+    return next();
   } catch (error) {
     return res.status(401).json({ error: error.message });
   }
