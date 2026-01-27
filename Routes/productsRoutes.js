@@ -11,10 +11,11 @@ router.delete("/delete/:id", productsController.deleteProduct);
 
 // categories
 router.get("/categories", productsController.getCategories);
+router.get("/related", productsController.getRelatedProducts);
 router.post("/categories/create", productsController.createCategory);
 router.put(
   "/categories/update/:category_id",
-  productsController.updateCategory
+  productsController.updateCategory,
 );
 router.delete("/categories/delete", productsController.deleteCategory);
 
@@ -53,7 +54,7 @@ router.get("/collections", productsController.getCollections);
 router.post("/collections/create", productsController.createCollection);
 router.put(
   "/collections/update/:collection_id",
-  productsController.updateCollection
+  productsController.updateCollection,
 );
 router.delete("/collections/delete", productsController.deleteCollection);
 
