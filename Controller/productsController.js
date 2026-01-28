@@ -132,6 +132,60 @@ exports.getCategories = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+exports.getRelatedProducts = async (req, res) => {
+  try {
+    let { productId, categories, limit = 4 } = req.query;
+
+    if (!Array.isArray(categories)) {
+      categories = [categories];
+    }
+
+    const result = await prisma.products.findMany({
+      where: {
+        product_id: {
+          not: Number(productId),
+        },
+        OR: categories.map((cat) => ({
+          categories: {
+            array_contains: [cat],
+          },
+        })),
+      },
+      take: Number(limit),
+    });
+
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+// exports.getRelatedProducts = async (req, res) => {
+//   try {
+//     let { productId, categories, limit = 4 } = req.query;
+//     console.log(categories, "categories");
+//     if (!Array.isArray(categories)) {
+//       categories = [categories];
+//     }
+
+//     const result = await prisma.products.findMany({
+//       where: {
+//         product_id: {
+//           not: Number(productId),
+//         },
+//         categories: {
+//           array_contains: categories,
+//         },
+//       },
+//       take: Number(limit),
+//     });
+
+//     return res.status(200).json(result);
+//   } catch (error) {
+//     return res.status(500).json({ error: error.message });
+//   }
+// };
+
 exports.createCategory = async (req, res) => {
   const data = req.body;
   try {
