@@ -132,6 +132,23 @@ exports.getCategories = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+
+exports.getUniqueCategoryProducts = async (req, res) => {
+  try {
+    const category_name = req.params.category_name;
+    const result = await prisma.products.findMany({
+      where: {
+        categories: {
+          array_contains: [category_name],
+        },
+      },
+    });
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 exports.getRelatedProducts = async (req, res) => {
   try {
     let { productId, categories, limit = 4 } = req.query;
@@ -187,10 +204,13 @@ exports.getRelatedProducts = async (req, res) => {
 // };
 
 exports.createCategory = async (req, res) => {
-  const data = req.body;
+  const { category_name, category_image } = req.body;
   try {
     await prisma.categories.create({
-      data,
+      data: {
+        category_name,
+        category_image,
+      },
     });
     return res.status(201).json({ message: "Category created successfully" });
   } catch (error) {
@@ -199,13 +219,16 @@ exports.createCategory = async (req, res) => {
 };
 exports.updateCategory = async (req, res) => {
   const category_id = Number(req.params.category_id);
-  const data = req.body;
+  const { category_name, category_image } = req.body;
   try {
     const result = await prisma.categories.update({
       where: {
         category_id,
       },
-      data,
+      data: {
+        category_name,
+        category_image,
+      },
     });
 
     return res.status(200).json({ message: "Category updated successfully" });
